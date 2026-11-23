@@ -1,0 +1,23 @@
+
+[0] reference: numerical grad of textbook loss -log(y + 1e-7)
+param      shape   max rel err  mean rel err   > tol
+W1      (20, 10)      2.36e-05      8.42e-07    2/200
+b1         (10,)      1.11e-06      5.09e-07    0/10
+W2       (10, 6)      2.44e-06      5.93e-07    0/60
+b2          (6,)      4.40e-06      1.27e-06    0/6
+
+[1] backprop vs numerical grad of -log(y)
+param      shape   max rel err  mean rel err   > tol
+W1      (20, 10)      5.82e-08      1.46e-09    0/200
+b1         (10,)      1.43e-09      3.85e-10    0/10
+W2       (10, 6)      4.17e-09      1.45e-09    0/60
+b2          (6,)      4.11e-09      1.25e-09    0/6
+=> PASS (max rel err < 1e-05 for all params)
+
+[2] control: db deliberately doubled (bug injected)
+param      shape   max rel err  mean rel err   > tol
+W1      (20, 10)      5.82e-08      1.46e-09    0/200
+b1         (10,)      5.00e-01      4.50e-01    9/10
+W2       (10, 6)      4.17e-09      1.45e-09    0/60
+b2          (6,)      5.00e-01      5.00e-01    6/6
+=> bug caught: only b1, b2 should exceed tol

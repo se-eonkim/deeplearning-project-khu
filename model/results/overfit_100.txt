@@ -1,0 +1,14 @@
+data: x (100, 768), labels per class [17 17 17 17 16 16]
+iter     1: loss 1.3377, train acc 0.490
+iter    10: loss 0.2639, train acc 0.960
+iter    50: loss 0.0938, train acc 0.990
+iter   100: loss 0.0721, train acc 0.990
+iter   200: loss 0.0564, train acc 0.990
+iter   500: loss 0.0337, train acc 0.990
+iter  1000: loss 0.0138, train acc 1.000
+
+train acc 100% first reached at iter 862
+final loss 0.01379, final train acc 1.000
+(reference) val acc of this 100-sample model: 0.581
+=> PASS
+saved model\figures\overfit_100.png
