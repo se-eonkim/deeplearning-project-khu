@@ -13,12 +13,16 @@ loss의 +1e-7에 대해:
   -> 역전파 공식을 확인할 때는 1e-7을 뺀 loss로 수치미분한다 ([1]).
      교재 loss 그대로 한 결과는 참고로 함께 출력한다 ([0]). 학습에는 교재 loss를 그대로 쓴다.
 
-실행 (레포 루트에서): python model/check_gradient.py
+실행 (레포 루트에서): python model/checks/check_gradient.py
 """
+import sys
+from pathlib import Path
+
 import numpy as np
 
-import layers
-from model import PARAM_KEYS, TwoLayerNet
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))  # model/ (layers.py, model.py)
+import layers  # noqa: E402
+from model import PARAM_KEYS, TwoLayerNet  # noqa: E402
 
 H = 1e-4        # 중앙차분 간격 (교재 common/gradient.py와 같음)
 TOL = 1e-5      # 통과 기준: 파라미터별 최대 상대오차

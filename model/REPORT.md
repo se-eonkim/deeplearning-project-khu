@@ -19,9 +19,9 @@
 | `common/functions.py` | `layers.py` | `softmax` (최댓값을 빼는 overflow 대책), `cross_entropy_error` | 없음 |
 | `common/layers.py` | `layers.py` | `Relu`, `Affine`, `SoftmaxWithLoss`의 forward·backward | `Affine.backward`에 기울기 shape 확인(assert) 추가. CNN용 계층과 `common.util` import는 제외 |
 | `ch05/two_layer_net.py` | `model.py` | 계층 구성(`OrderedDict`), `predict`, `loss`, `accuracy`, `gradient` | 시드 고정(`default_rng`): 실험 2의 시드 비교용. 초기화 선택(He / std 0.01): 2절 비교용. 은닉층 출력 `hidden()`: 5단계 분석용. 저장·불러오기: 불러온 뒤 계층을 다시 연결(교재 `Affine`은 `params`와 같은 배열을 참조하므로) |
-| `ch05/gradient_check.py`, `common/gradient.py` | `check_gradient.py` | 중앙차분 수치미분 (`h = 1e-4`) | 절대오차 평균 → 파라미터별 상대오차(최대·평균). 손실의 `+1e-7` 처리 (4절) |
+| `ch05/gradient_check.py`, `common/gradient.py` | `checks/check_gradient.py` | 중앙차분 수치미분 (`h = 1e-4`) | 절대오차 평균 → 파라미터별 상대오차(최대·평균). 손실의 `+1e-7` 처리 (4절) |
 | `ch05/train_neuralnet.py` | `train.py` | 미니배치 SGD, 갱신식 `W ← W − lr·dW` | 복원추출 반복 → epoch마다 섞어서 한 바퀴. 테스트 대신 검증 정확도 기록. 설정을 명령줄 인자로 |
-| `ch06/weight_init_compare.py`, `ch06/hyperparameter_optimization.py` | `train.py`, `plot_settings.py` | 초기화 비교, 검증 데이터로 설정 선택 | 검증 분할을 무작위 20% 대신 사람 5명 단위로 (`data.py`) |
+| `ch06/weight_init_compare.py`, `ch06/hyperparameter_optimization.py` | `train.py`, `plots/plot_settings.py` | 초기화 비교, 검증 데이터로 설정 선택 | 검증 분할을 무작위 20% 대신 사람 5명 단위로 (`data.py`) |
 
 ### 1-2. 모델 구조
 
@@ -35,7 +35,7 @@
 - `loss(x, t)`는 `SoftmaxWithLoss`까지 계산한다. 정답 칸의 확률이 필요하므로 softmax를 거친다.
 - `gradient(x, t)`는 `loss`로 순전파를 끝낸 뒤 `SoftmaxWithLoss`부터 `Affine1`까지 역순으로 `backward`를 호출해 `dW₁, db₁, dW₂, db₂`를 얻는다. 갱신은 `train.py`에서 한다.
 
-### 1-3. 기울기 확인 (`check_gradient.py`)
+### 1-3. 기울기 확인 (`checks/check_gradient.py`)
 입력 20, 은닉 10, 출력 6의 작은 네트워크에 랜덤 샘플 3개를 넣고, 역전파 기울기와 중앙차분 기울기를 원소별로 비교했다. 통과 기준은 파라미터별 최대 상대오차 1e-5 미만이다.
 
 | 파라미터 | 최대 상대오차 | 평균 상대오차 | 판정 |
@@ -47,7 +47,7 @@
 
 대조 실험으로 `Affine.backward`의 `db`를 일부러 2배로 바꾸고 같은 확인을 실행했다. `b1`, `b2`의 최대 상대오차만 0.5로 커졌고 `W1`, `W2`는 변하지 않았다. 이 확인은 오류가 있는 파라미터를 구분해 검출한다. (`b1`은 10개 중 9개만 기준을 넘었다. 남은 1개는 세 샘플 모두에서 ReLU가 0을 출력한 노드로, 기울기가 원래 0이다.)
 
-### 1-4. 100개 과적합 확인 (`check_overfit.py`)
+### 1-4. 100개 과적합 확인 (`checks/check_overfit.py`)
 학습 데이터에서 행동별로 16~17개씩 고른 100개만으로 학습했다(은닉 100, He 초기화, 학습률 0.1, 전체 배치). 파라미터 수가 샘플 수보다 훨씬 많으므로, 학습 과정이 정상이면 학습 정확도 100%에 도달해야 한다.
 
 ![overfit](figures/overfit_100.png)
@@ -113,10 +113,10 @@
 
 ```bash
 python data/data.py               # 처음 한 번 (UCI 원본은 각자 받아 레포 루트에 둔다)
-python model/check_gradient.py    # 1-3절
-python model/check_overfit.py     # 1-4절
+python model/checks/check_gradient.py    # 1-3절
+python model/checks/check_overfit.py     # 1-4절
 python model/train.py --test      # 확정 설정 1회 (약 10초)
-python model/plot_settings.py "c5_h100_lr0.1_he_e23_s{s}"   # 2·3절 그림
-python model/plot_network.py      # 1-2절 그림
+python model/plots/plot_settings.py "c5_h100_lr0.1_he_e23_s{s}"   # 2·3절 그림
+python model/plots/plot_network.py      # 1-2절 그림
 ```
 </details>

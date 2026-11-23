@@ -4,7 +4,7 @@
 입력 768 = 128시점 x 6채널 (data.flatten, 시점 우선: x[t*6 + c]).
 선 하나 = 가중치 하나. 강조한 두 선은 W1[0, 0], W2[0, 0] (코드의 0부터 세는 인덱스).
 
-실행 (레포 루트에서): python model/plot_network.py
+실행 (레포 루트에서): python model/plots/plot_network.py
 산출: model/figures/network.png
 """
 from pathlib import Path
@@ -125,6 +125,6 @@ for i, (fc, txt) in enumerate([(ACC, "total_acc (x, y, z)"), (GYRO, "body_gyro (
 ax.plot([lx + 5.75, lx + 6.3], [ly, ly], color=ACCENT, lw=2.6, solid_capstyle="round")
 ax.text(lx + 6.45, ly, "one line = one weight", va="center", fontsize=10)
 
-out = Path(__file__).resolve().parent / "figures" / "network.png"
+out = Path(__file__).resolve().parent.parent / "figures" / "network.png"   # model/figures/
 fig.savefig(out)
 print(f"saved {out}")

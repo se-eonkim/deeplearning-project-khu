@@ -5,7 +5,7 @@
   - 난수: np.random.randn -> np.random.default_rng(seed). 같은 시드면 같은 초기 가중치
   - 초기화 선택: init="he" (std = sqrt(2/n_in)) 또는 "std" (weight_std 고정)
   - hidden(x): 은닉층 H = ReLU(XW1+b1)를 꺼낸다 (5단계 은닉 표현 분석용)
-  - numerical_gradient 메서드는 model/check_gradient.py로 뺐다 (학습에는 쓰지 않음)
+  - numerical_gradient 메서드는 model/checks/check_gradient.py로 뺐다 (학습에는 쓰지 않음)
   - save_model / load_model 추가 (shared/weights.npz)
 
 사용 예 (model/ 폴더의 다른 스크립트에서):

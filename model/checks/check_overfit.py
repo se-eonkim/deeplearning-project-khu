@@ -9,7 +9,7 @@ UCI 학습 데이터(조건 ⑤, 768차원) 100개만으로 학습해서 학습 
 - 설정: 은닉 100, He 초기화, 학습률 0.1, 100개 전체를 한 배치로, 정규화 기법 없음
 - 검증 정확도는 참고로만 출력한다 (100개만 외운 모델이라 낮은 게 정상)
 
-실행 (레포 루트에서): python model/check_overfit.py
+실행 (레포 루트에서): python model/checks/check_overfit.py
 산출: model/figures/overfit_100.png
 """
 import sys
@@ -17,11 +17,14 @@ from pathlib import Path
 
 import numpy as np
 
-import plot_style  # noqa: F401  (Times New Roman)
-import matplotlib.pyplot as plt
-
-ROOT = Path(__file__).resolve().parent.parent
+MODEL_DIR = Path(__file__).resolve().parent.parent   # model/
+ROOT = MODEL_DIR.parent                              # 레포 루트
+sys.path.insert(0, str(MODEL_DIR / "plots"))
+sys.path.insert(0, str(MODEL_DIR))
 sys.path.insert(0, str(ROOT / "data"))
+import plot_style  # noqa: F401, E402  (Times New Roman)
+import matplotlib.pyplot as plt  # noqa: E402
+
 from data import CONDITIONS, load_train_val  # noqa: E402
 
 from model import PARAM_KEYS, TwoLayerNet  # noqa: E402
@@ -74,7 +77,7 @@ if __name__ == "__main__":
     ax[1].set(title=f"Train accuracy on {N_SAMPLES} samples", xlabel="iteration (full batch)", ylabel="accuracy", ylim=(0, 1.05))
     fig.suptitle(f"Overfit check: cond 5 (768), hidden 100, He init, lr {LR}")
     fig.tight_layout()
-    out = Path(__file__).resolve().parent / "figures" / "overfit_100.png"
+    out = MODEL_DIR / "figures" / "overfit_100.png"
     out.parent.mkdir(exist_ok=True)
     fig.savefig(out, dpi=120)
     print(f"saved {out.relative_to(ROOT)}")

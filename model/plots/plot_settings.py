@@ -1,6 +1,6 @@
 """3단계 그림: model/results/*.npz (train.py 결과)를 읽어 설정 비교 그림을 그린다.
 
-실행 (레포 루트에서): python model/plot_settings.py
+실행 (레포 루트에서): python model/plots/plot_settings.py
 산출 (model/figures/)
   settings_lr_init.png   학습률 3개 x 초기화 2개: 학습 loss, 검증 정확도
   settings_hidden.png    은닉 50 vs 100: 학습/검증 정확도 (과적합 간격)
@@ -15,8 +15,9 @@ import numpy as np
 import plot_style
 import matplotlib.pyplot as plt
 
-RES = Path(__file__).resolve().parent / "results"
-FIG = Path(__file__).resolve().parent / "figures"
+MODEL_DIR = Path(__file__).resolve().parent.parent   # model/
+RES = MODEL_DIR / "results"
+FIG = MODEL_DIR / "figures"
 FIG.mkdir(exist_ok=True)
 
 SMOOTH = 5  # 검증 정확도 이동평균 창 (epoch). epoch마다 ±2%p씩 흔들려서 정점을 이동평균으로 읽는다
