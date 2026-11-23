@@ -4,3 +4,5 @@
 
 | 날짜 | 담당 | 증상 | 원인 | 해결 |
 |---|---|---|---|---|
+| 2026-11-23 | 🟦 데이터 | UCI zip을 풀면 `UCI HAR Dataset/UCI HAR Dataset/`로 폴더가 한 겹 더 생김 | zip 안에 같은 이름 폴더 + Mac 메타데이터(`__MACOSX`) 포함 | 안쪽 폴더를 레포 루트의 `UCI HAR Dataset/`로 올리고 `__MACOSX` 삭제 |
+| 2026-11-23 | 🟦 데이터 | 펼치기를 채널 우선으로 만들었는데 `shared/README.md` 약속은 시점 우선 | 레포 약속을 확인하기 전에 구현함 | `flatten`을 NumPy 기본 `reshape`(시점 우선, `x[t*C+c]`)로 바꾸고 원본 txt와 값 대조 |

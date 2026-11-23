@@ -24,7 +24,9 @@
 | WALKING | WALKING_UPSTAIRS | WALKING_DOWNSTAIRS | SITTING | STANDING | LAYING |
 
 ### 검증 분할
-- 검증용 사람 번호: _(데이터 담당이 정하면 여기에 기록)_
+- 검증용 사람 번호: **8, 11, 16, 19, 23** (학습 21명 중 5명, 고정. `data/data.py`의 `VAL_SUBJECTS`)
+  - 학습 16명 5,657개 / 검증 5명 1,695개. 행동별로 학습 데이터의 22~24%씩 들어감
+  - `norm_stats.npz`도 이 5명을 뺀 학습 16명으로만 계산했다
 
 ## 주고받는 파일
 
